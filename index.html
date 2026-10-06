@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UDDIS Zegel – Canteen Partner Earnings Calculator</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
+</head>
+<body>
+  <header class="hero text-white py-4">
+    <div class="container">
+      <h1 class="h3 mb-1">UDDIS Zegel</h1>
+      <p class="mb-0 opacity-75">Canteen Partner Earnings Calculator – change the price or margin and see your profit.</p>
+    </div>
+  </header>
+
+  <main class="container py-4">
+    <div class="row g-4">
+
+      <!-- Inputs -->
+      <section class="col-lg-5">
+        <div class="card shadow-sm h-100">
+          <div class="card-body">
+            <h2 class="h5 mb-3">Inputs</h2>
+
+            <div class="mb-3">
+              <label for="mrp" class="form-label">MRP – ceiling price (₹)</label>
+              <input type="number" class="form-control" id="mrp" min="1" step="1" value="120">
+              <div class="form-text">Maximum price you can legally sell a unit for.</div>
+            </div>
+
+            <div class="mb-3">
+              <label for="price" class="form-label d-flex justify-content-between">
+                <span>Student-facing selling price (₹)</span>
+                <strong id="priceOut"></strong>
+              </label>
+              <input type="range" class="form-range" id="priceRange" min="1" max="120" step="1" value="85">
+              <input type="number" class="form-control" id="price" min="1" step="1" value="85">
+              <div class="form-text">Suggested price instead of MRP, at least during the promotion phase.</div>
+              <div class="alert alert-warning py-2 mt-2 mb-0 d-none" id="ceilingWarn">
+                Selling price cannot exceed MRP. Capped at ceiling.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="margin" class="form-label d-flex justify-content-between">
+                <span>Canteen margin (% of selling price)</span>
+                <strong id="marginOut"></strong>
+              </label>
+              <input type="range" class="form-range" id="marginRange" min="0" max="50" step="1" value="20">
+              <input type="number" class="form-control" id="margin" min="0" max="100" step="0.5" value="20">
+            </div>
+
+            <div class="row g-3">
+              <div class="col-6">
+                <label for="units" class="form-label">Units sold per day</label>
+                <input type="number" class="form-control" id="units" min="0" step="1" value="10">
+              </div>
+              <div class="col-6">
+                <label for="days" class="form-label">Days per month</label>
+                <input type="number" class="form-control" id="days" min="1" max="31" step="1" value="30">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Results -->
+      <section class="col-lg-7">
+        <div class="card shadow-sm h-100">
+          <div class="card-body">
+            <h2 class="h5 mb-3">Results</h2>
+            <div class="row g-3">
+              <div class="col-6 col-md-4">
+                <div class="stat">
+                  <div class="stat-label">Margin per unit</div>
+                  <div class="stat-value" id="marginUnit"></div>
+                </div>
+              </div>
+              <div class="col-6 col-md-4">
+                <div class="stat">
+                  <div class="stat-label">Price you pay Uddis / unit</div>
+                  <div class="stat-value" id="uddisPrice"></div>
+                </div>
+              </div>
+              <div class="col-6 col-md-4">
+                <div class="stat">
+                  <div class="stat-label">Daily profit</div>
+                  <div class="stat-value" id="dailyProfit"></div>
+                </div>
+              </div>
+              <div class="col-6 col-md-6">
+                <div class="stat stat-main">
+                  <div class="stat-label">Monthly profit</div>
+                  <div class="stat-value" id="monthlyProfit"></div>
+                </div>
+              </div>
+              <div class="col-6 col-md-6">
+                <div class="stat">
+                  <div class="stat-label">Monthly revenue</div>
+                  <div class="stat-value" id="monthlyRevenue"></div>
+                </div>
+              </div>
+            </div>
+
+            <hr class="my-4">
+            <h3 class="h6">Ceiling price vs your price</h3>
+            <p class="small text-muted mb-2" id="ceilingNote"></p>
+            <div class="progress" style="height: 1.25rem;">
+              <div class="progress-bar" id="priceBar" role="progressbar"></div>
+            </div>
+            <div class="d-flex justify-content-between small text-muted mt-1">
+              <span>₹0</span><span id="mrpLabel"></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Margin sensitivity -->
+      <section class="col-12">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h2 class="h5">What if the margin changes?</h2>
+            <p class="small text-muted">Monthly profit at your current price and volume, for different margin %.</p>
+            <div class="table-responsive">
+              <table class="table table-sm align-middle mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th>Margin %</th>
+                    <th class="text-end">Margin / unit</th>
+                    <th class="text-end">Pay Uddis / unit</th>
+                    <th class="text-end">Daily profit</th>
+                    <th class="text-end">Monthly profit</th>
+                    <th class="text-end">vs current</th>
+                  </tr>
+                </thead>
+                <tbody id="marginTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Scenario table -->
+      <section class="col-12">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h2 class="h5 mb-0">Scenario table – profit by daily volume</h2>
+              <button class="btn btn-sm btn-outline-primary" id="addRow">+ Add row</button>
+            </div>
+            <p class="small text-muted">Edit units per day or add rows. Uses the inputs above.</p>
+            <div class="table-responsive">
+              <table class="table table-sm align-middle mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th>Units / day</th>
+                    <th class="text-end">Daily profit</th>
+                    <th class="text-end">Monthly profit</th>
+                    <th class="text-end">Monthly revenue</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="scenarioTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="text-center small text-muted pb-4">
+    Margin per unit = selling price × margin %. Price paid to Uddis = selling price − margin.
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

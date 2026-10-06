@@ -1,0 +1,49 @@
+body {
+  background: #f4f6fa;
+}
+
+.hero {
+  background: linear-gradient(135deg, #2b5876, #4e4376);
+}
+
+.stat {
+  background: #f8f9fc;
+  border: 1px solid #e3e7ef;
+  border-radius: .5rem;
+  padding: .75rem;
+  height: 100%;
+}
+
+.stat-main {
+  background: #e8f5e9;
+  border-color: #b7dfba;
+}
+
+.stat-label {
+  font-size: .75rem;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  word-break: break-word;
+}
+
+.stat-main .stat-value {
+  color: #2e7d32;
+}
+
+#scenarioTable input {
+  max-width: 7rem;
+}
+
+tr.current-row {
+  background: #fff8e1;
+}
+
+@media (max-width: 575px) {
+  .stat-value { font-size: 1.2rem; }
+}
