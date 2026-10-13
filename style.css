@@ -40,10 +40,6 @@ body {
   max-width: 7rem;
 }
 
-tr.current-row {
-  background: #fff8e1;
-}
-
 @media (max-width: 575px) {
   .stat-value { font-size: 1.2rem; }
 }

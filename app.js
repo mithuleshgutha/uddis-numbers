@@ -60,30 +60,7 @@
       ? 'You sell ₹' + inr.format(off) + ' below MRP (' + inr.format(off / s.mrp * 100) + '% cheaper for students).'
       : 'You sell at MRP.';
 
-    renderMargins(s, r);
     renderScenarios(s);
-  }
-
-  function renderMargins(s, cur) {
-    var steps = [5, 10, 15, 20, 25, 30, 35, 40];
-    if (steps.indexOf(s.margin) === -1) {
-      steps.push(s.margin);
-      steps.sort(function (a, b) { return a - b; });
-    }
-    var html = steps.map(function (m) {
-      var r = calc(s.price, m, s.units, s.days);
-      var diff = r.monthly - cur.monthly;
-      var cls = diff > 0 ? 'text-success' : diff < 0 ? 'text-danger' : 'text-muted';
-      var sign = diff > 0 ? '+' : diff < 0 ? '−' : '';
-      return '<tr class="' + (m === s.margin ? 'current-row' : '') + '">' +
-        '<td>' + m + '%' + (m === s.margin ? ' <span class="badge text-bg-warning">current</span>' : '') + '</td>' +
-        '<td class="text-end">' + money(r.marginUnit) + '</td>' +
-        '<td class="text-end">' + money(r.uddisPrice) + '</td>' +
-        '<td class="text-end">' + money(r.daily) + '</td>' +
-        '<td class="text-end fw-semibold">' + money(r.monthly) + '</td>' +
-        '<td class="text-end ' + cls + '">' + sign + money(Math.abs(diff)) + '</td></tr>';
-    }).join('');
-    $('marginTable').innerHTML = html;
   }
 
   function renderScenarios(s) {
