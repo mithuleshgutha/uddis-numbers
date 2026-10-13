@@ -1,45 +1,198 @@
+:root {
+  --chocolate: #5D4037;
+  --coffee: #3E2723;
+  --banana: #FBC02D;
+  --strawberry: #F48FB1;
+  --butterscotch: #FFB74D;
+  --cream: #FFF8E1;
+  --line: rgba(93, 64, 55, .14);
+  --bs-body-font-family: "DM Sans", system-ui, sans-serif;
+  --bs-body-color: #3b3330;
+}
+
+html { scroll-behavior: smooth; }
+
 body {
-  background: #f4f6fa;
+  background: var(--cream);
+  font-family: "DM Sans", system-ui, sans-serif;
+  overflow-x: hidden;
+  position: relative;
 }
 
-.hero {
-  background: linear-gradient(135deg, #2b5876, #4e4376);
+h1, h2, h3, .stat-value { font-family: "Playfair Display", serif; }
+
+/* decorative blobs */
+.blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(70px);
+  z-index: -1;
+  pointer-events: none;
+}
+.blob-1 { top: -80px; right: -60px; width: 320px; height: 320px; background: rgba(255, 183, 77, .28); }
+.blob-2 { bottom: -100px; left: -80px; width: 360px; height: 360px; background: rgba(244, 143, 177, .22); }
+
+/* top bar */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: .6rem 0;
+  background: rgba(255, 255, 255, .85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 1px 8px rgba(93, 64, 55, .08);
+}
+.logo { height: 40px; width: auto; }
+
+.pill {
+  display: inline-block;
+  padding: .25rem .8rem;
+  border-radius: 999px;
+  background: var(--chocolate);
+  color: var(--cream);
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+}
+.pill-outline {
+  background: transparent;
+  color: rgba(93, 64, 55, .85);
+  border: 1px solid rgba(93, 64, 55, .25);
 }
 
+/* hero */
+.hero { padding-block: 2rem 1.5rem; }
+.hero h1 {
+  font-weight: 900;
+  color: var(--chocolate);
+  font-size: clamp(2.2rem, 8vw, 3.8rem);
+  line-height: 1.1;
+  margin: 0;
+}
+.accent {
+  background: linear-gradient(90deg, var(--chocolate), var(--strawberry));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* cards */
+.card {
+  border: 1px solid var(--line);
+  border-radius: 1.25rem;
+  background: rgba(255, 255, 255, .85);
+  box-shadow: 0 8px 24px rgba(93, 64, 55, .07);
+}
+.card-body { padding: 1.25rem; }
+@media (min-width: 768px) { .card-body { padding: 1.75rem; } }
+.card h2 { color: var(--chocolate); font-weight: 700; font-size: 1.35rem; }
+
+/* forms */
+.form-label { font-weight: 500; font-size: .9rem; color: var(--coffee); }
+.form-control {
+  border-radius: .75rem;
+  border-color: rgba(93, 64, 55, .2);
+  background: #fffdf6;
+  font-size: 1rem; /* avoid iOS zoom */
+  min-height: 46px;
+}
+.form-control:focus {
+  border-color: var(--butterscotch);
+  box-shadow: 0 0 0 .2rem rgba(255, 183, 77, .3);
+  background: #fff;
+}
+.form-text { font-size: .78rem; }
+.form-range { height: 2rem; }
+.form-range::-webkit-slider-runnable-track { background: rgba(93, 64, 55, .15); height: .4rem; border-radius: 999px; }
+.form-range::-moz-range-track { background: rgba(93, 64, 55, .15); height: .4rem; border-radius: 999px; }
+.form-range::-webkit-slider-thumb { background: var(--chocolate); width: 1.4rem; height: 1.4rem; margin-top: -.5rem; border: 3px solid var(--banana); }
+.form-range::-moz-range-thumb { background: var(--chocolate); width: 1.1rem; height: 1.1rem; border: 3px solid var(--banana); }
+.form-range:focus::-webkit-slider-thumb { box-shadow: 0 0 0 .2rem rgba(255, 183, 77, .35); }
+#priceOut, #marginOut { color: var(--chocolate); font-weight: 700; }
+.alert-warning { border-radius: .75rem; font-size: .85rem; background: #fff3cd; border-color: var(--banana); color: var(--coffee); }
+
+/* stats */
 .stat {
-  background: #f8f9fc;
-  border: 1px solid #e3e7ef;
-  border-radius: .5rem;
-  padding: .75rem;
+  background: #fffdf6;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  padding: .9rem 1rem;
   height: 100%;
 }
-
 .stat-main {
-  background: #e8f5e9;
-  border-color: #b7dfba;
+  background: linear-gradient(135deg, var(--chocolate), var(--coffee));
+  border: 0;
+  box-shadow: 0 8px 20px rgba(62, 39, 35, .25);
 }
-
 .stat-label {
-  font-size: .75rem;
-  color: #6c757d;
+  font-size: .68rem;
+  color: rgba(59, 51, 48, .65);
   text-transform: uppercase;
-  letter-spacing: .03em;
+  letter-spacing: .06em;
+  font-weight: 700;
+  line-height: 1.3;
 }
-
 .stat-value {
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: 1.45rem;
+  font-weight: 900;
+  color: var(--chocolate);
   word-break: break-word;
 }
+.stat-main .stat-label { color: rgba(255, 248, 225, .75); }
+.stat-main .stat-value { color: var(--banana); font-size: 1.8rem; }
 
-.stat-main .stat-value {
-  color: #2e7d32;
+/* progress bar */
+.progress { background: rgba(93, 64, 55, .12); border-radius: 999px; }
+.progress-bar {
+  background: linear-gradient(90deg, var(--butterscotch), var(--strawberry));
+  color: var(--coffee);
+  font-weight: 700;
+  font-size: .75rem;
+  border-radius: 999px;
+  transition: width .3s ease;
 }
+hr { border-color: var(--line); opacity: 1; }
 
-#scenarioTable input {
-  max-width: 7rem;
+/* tables */
+.table { --bs-table-bg: transparent; margin-bottom: 0; }
+.table thead th {
+  background: rgba(93, 64, 55, .07);
+  color: var(--chocolate);
+  font-size: .75rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  border: 0;
+  white-space: nowrap;
 }
+.table thead th:first-child { border-radius: .6rem 0 0 .6rem; }
+.table thead th:last-child { border-radius: 0 .6rem .6rem 0; }
+.table td { border-color: var(--line); white-space: nowrap; }
+#scenarioTable input { max-width: 6rem; min-height: 38px; font-size: 1rem; }
 
+.btn-choc {
+  background: var(--chocolate);
+  color: var(--cream);
+  border-radius: 999px;
+  font-weight: 700;
+  padding: .45rem 1rem;
+  border: 0;
+}
+.btn-choc:hover, .btn-choc:active { background: var(--coffee); color: var(--banana); }
+#scenarioTable button[data-del] { min-width: 32px; min-height: 32px; text-decoration: none; }
+
+.foot { color: rgba(59, 51, 48, .6); }
+
+/* mobile */
 @media (max-width: 575px) {
+  .hero { padding-block: 1.5rem 1rem; }
+  .logo { height: 34px; }
+  .stat { padding: .75rem; }
   .stat-value { font-size: 1.2rem; }
+  .stat-main .stat-value { font-size: 1.5rem; }
+  .card h2 { font-size: 1.2rem; }
+  .table td, .table th { padding-inline: .25rem; font-size: .8rem; white-space: normal; }
+  .table thead th { font-size: .62rem; letter-spacing: .02em; white-space: normal; vertical-align: bottom; }
+  #scenarioTable input { max-width: 4.4rem; padding-inline: .4rem; }
+  #scenarioTable td:last-child { padding-inline: 0; width: 1.5rem; }
 }
